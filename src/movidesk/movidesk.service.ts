@@ -1,24 +1,33 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
-import { CreateMovideskDto } from './dto/create-movidesk.dto';
-import { UpdateMovideskDto } from './dto/update-movidesk.dto';
-
+/**
+ * Movidesk Service
+ * @class MovideskService
+ */
 @Injectable()
 export class MovideskService {
+  /**
+   * Logger
+   */
   protected logger = new Logger(MovideskService.name);
+  /**
+   * Constructor
+   * @param httpService Http Service to handle requests
+   */
   constructor(private readonly httpService: HttpService) {}
 
+  /**
+   * Movidesk URL
+   * @type {string}
+   */
   http: string = process.env.MOVIDESK_URL;
 
-  create(createMovideskDto: CreateMovideskDto) {
-    return 'This action adds a new movidesk';
-  }
-
-  findAll() {
-    return `This action returns all movidesk`;
-  }
-
+  /**
+   * Get a ticket from Movidesk
+   * @param id Ticket ID
+   * @returns  Ticket typeof Movidesk.TicketResponse
+   */
   async getTicket(id: string): Promise<Movidesk.TicketResponse> {
     const { data } = await lastValueFrom<{ data: Movidesk.TicketResponse }>(
       this.httpService.get(
@@ -29,6 +38,12 @@ export class MovideskService {
     return data;
   }
 
+  /**
+   * Update a ticket from Movidesk
+   * @param id Ticket ID
+   * @param updateMovideskDto Ticket typeof Movidesk.CustomFieldValue[]
+   * @returns Updated ticket typeof Movidesk.TicketResponse
+   */
   async updateTicket(
     id: string,
     updateMovideskDto: Movidesk.CustomFieldValue[],
@@ -44,9 +59,5 @@ export class MovideskService {
     );
 
     return data;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} movidesk`;
   }
 }
