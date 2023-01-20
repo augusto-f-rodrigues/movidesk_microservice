@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { MovideskService } from './movidesk.service';
 import { CreateMovideskDto } from './dto/create-movidesk.dto';
 import { UpdateMovideskDto } from './dto/update-movidesk.dto';
@@ -18,13 +26,16 @@ export class MovideskController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.movideskService.findOne(id);
+  getTicket(@Param('id') id: string) {
+    return this.movideskService.getTicket(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMovideskDto: UpdateMovideskDto) {
-    return this.movideskService.update(+id, updateMovideskDto);
+  updateTicket(
+    @Param('id') id: string,
+    @Body() updateMovideskDto: Movidesk.CustomFieldValue[],
+  ) {
+    return this.movideskService.updateTicket(id, updateMovideskDto);
   }
 
   @Delete(':id')

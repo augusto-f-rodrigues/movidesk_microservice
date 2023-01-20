@@ -9,6 +9,8 @@ export class MovideskService {
   protected logger = new Logger(MovideskService.name);
   constructor(private readonly httpService: HttpService) {}
 
+  http: string = process.env.MOVIDESK_URL;
+
   create(createMovideskDto: CreateMovideskDto) {
     return 'This action adds a new movidesk';
   }
@@ -17,20 +19,31 @@ export class MovideskService {
     return `This action returns all movidesk`;
   }
 
-  async findOne(id: string) {
-    // return `This action returns a #${id} movidesk`;
-
-    const { data } = await lastValueFrom(
+  async getTicket(id: string): Promise<Movidesk.TicketResponse> {
+    const { data } = await lastValueFrom<{ data: Movidesk.TicketResponse }>(
       this.httpService.get(
-        `https://api.movidesk.com/public/v1/tickets?token=${process.env.MOVIDESK_TOKEN}&id=${id}`,
+        `${this.http}?token=${process.env.MOVIDESK_TOKEN}&id=${id}`,
       ),
     );
 
     return data;
   }
 
-  update(id: number, updateMovideskDto: UpdateMovideskDto) {
-    return `This action updates a #${id} movidesk`;
+  async updateTicket(
+    id: string,
+    updateMovideskDto: Movidesk.CustomFieldValue[],
+  ) {
+    const { data } = await lastValueFrom<{ data: Movidesk.TicketResponse }>(
+      this.httpService.patch(
+        `${this.http}?token=${process.env.MOVIDESK_TOKEN}&id=${id}`,
+        { customFieldValues: updateMovideskDto },
+        {
+          headers: { Accept: 'application/json' },
+        },
+      ),
+    );
+
+    return data;
   }
 
   remove(id: number) {
