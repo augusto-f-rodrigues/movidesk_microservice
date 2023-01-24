@@ -19,8 +19,8 @@ export class MovideskController {
    * @returns Ticket
    */
   @Get(':id')
-  getTicket(@Param('id') id: string) {
-    return this.movideskService.getTicket(id);
+  async getTicket(@Param('id') id: string) {
+    return await this.movideskService.getTicket(id);
   }
 
   /**
@@ -30,10 +30,10 @@ export class MovideskController {
    * @returns Updated ticket
    */
   @Patch(':id')
-  updateTicket(
+  async updateTicket(
     @Param('id') id: string,
     @Body() updateMovideskDto: Movidesk.CustomFieldValue[],
   ) {
-    return this.movideskService.updateTicket(id, updateMovideskDto);
+    return await this.movideskService.updateTicket(id, updateMovideskDto);
   }
 }
