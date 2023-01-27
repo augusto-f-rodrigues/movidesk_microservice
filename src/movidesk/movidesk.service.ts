@@ -1,6 +1,9 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
-import { lastValueFrom } from 'rxjs';
+import { catchError, lastValueFrom } from 'rxjs';
+import { AxiosError } from 'axios';
+import { CreateTicketDto } from './dto/create-ticket.dto';
+
 /**
  * Movidesk Service
  * @class MovideskService
@@ -24,22 +27,27 @@ export class MovideskService {
   http: string = process.env.MOVIDESK_URL;
 
   /**
-   * Get a ticket from Movidesk
+   * Get a ticket for Movidesk
    * @param id Ticket ID
    * @returns  Ticket typeof Movidesk.TicketResponse
    */
   async getTicket(id: string): Promise<Movidesk.TicketResponse> {
     const { data } = await lastValueFrom<{ data: Movidesk.TicketResponse }>(
-      this.httpService.get(
-        `${this.http}?token=${process.env.MOVIDESK_TOKEN}&id=${id}`,
-      ),
+      this.httpService
+        .get(`${this.http}?token=${process.env.MOVIDESK_TOKEN}&id=${id}`)
+        .pipe(
+          catchError((error: AxiosError) => {
+            this.logger.error(error.response.data);
+            throw 'An error happened!';
+          }),
+        ),
     );
 
     return data;
   }
 
   /**
-   * Update a ticket from Movidesk
+   * Update a ticket for Movidesk
    * @param id Ticket ID
    * @param updateMovideskDto Ticket typeof Movidesk.CustomFieldValue[]
    * @returns Updated ticket typeof Movidesk.TicketResponse
@@ -49,13 +57,48 @@ export class MovideskService {
     updateMovideskDto: Movidesk.CustomFieldValue[],
   ) {
     const { data } = await lastValueFrom<{ data: Movidesk.TicketResponse }>(
-      this.httpService.patch(
-        `${this.http}?token=${process.env.MOVIDESK_TOKEN}&id=${id}`,
-        { customFieldValues: updateMovideskDto },
-        {
-          headers: { Accept: 'application/json' },
-        },
-      ),
+      this.httpService
+        .patch(
+          `${this.http}?token=${process.env.MOVIDESK_TOKEN}&id=${id}`,
+          { customFieldValues: updateMovideskDto },
+          {
+            headers: { Accept: 'application/json' },
+          },
+        )
+        .pipe(
+          catchError((error: AxiosError) => {
+            this.logger.error(error.response.data);
+            throw 'An error happened!';
+          }),
+        ),
+    );
+
+    return data;
+  }
+
+  /**
+   * Create a ticket for Movidesk
+   * @param createTicketDto Json to create Ticket
+   * @returns Created ticket typeof Movidesk.TicketResponse
+   */
+  async createTicket(
+    createTicketDto: CreateTicketDto,
+  ): Promise<Movidesk.TicketResponse> {
+    const { data } = await lastValueFrom<{ data: Movidesk.TicketResponse }>(
+      this.httpService
+        .post(
+          `${this.http}?token=${process.env.MOVIDESK_TOKEN}`,
+          createTicketDto,
+          {
+            headers: { Accept: 'application/json' },
+          },
+        )
+        .pipe(
+          catchError((error: AxiosError) => {
+            this.logger.error(error.response.data);
+            throw 'An error happened!';
+          }),
+        ),
     );
 
     return data;
