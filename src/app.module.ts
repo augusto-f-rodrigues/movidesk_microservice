@@ -8,7 +8,7 @@ import { MovideskModule } from './movidesk/movidesk.module';
   imports: [
     MovideskModule,
     ConfigModule.forRoot({
-      envFilePath: '.env',
+      envFilePath: 'dev.env',
       isGlobal: true,
     }),
   ],
