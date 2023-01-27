@@ -30,12 +30,13 @@ export class MovideskController {
    * @param updateMovideskDto Ticket data to update
    * @returns Updated ticket
    */
+
   @Patch('/ticket/:id')
   updateTicket(
     @Param('id') id: string,
     @Body() updateMovideskDto: Movidesk.CustomFieldValue[],
   ) {
-    return this.movideskService.updateTicket(id, updateMovideskDto);
+    return await this.movideskService.updateTicket(id, updateMovideskDto);
   }
 
   /**
