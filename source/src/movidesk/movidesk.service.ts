@@ -74,7 +74,7 @@ export class MovideskService {
     const { data } = await lastValueFrom<{ data: Movidesk.TicketResponse }>(
       this.httpService
         .post(
-          `${this.http}?token=${process.env.MOVIDESK_TOKEN}`,
+          `${this.http}?token=${process.env.MOVIDESK_TOKEN}&returnAllProperties=false`,
           createTicketDto,
           {
             headers: { Accept: 'application/json' },
