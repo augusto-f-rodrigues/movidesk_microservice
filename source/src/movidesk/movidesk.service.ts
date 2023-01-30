@@ -1,6 +1,8 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
-import { lastValueFrom } from 'rxjs';
+import { AxiosError } from 'axios';
+import { catchError, lastValueFrom } from 'rxjs';
+import { CreateTicketDto } from './dto/create-ticket.dto';
 /**
  * Movidesk Service
  * @class MovideskService
@@ -56,6 +58,34 @@ export class MovideskService {
           headers: { Accept: 'application/json' },
         },
       ),
+    );
+
+    return data;
+  }
+
+  /**
+   * Create a ticket for Movidesk
+   * @param createTicketDto Json to create Ticket
+   * @returns Created ticket typeof Movidesk.TicketResponse
+   */
+  async createTicket(
+    createTicketDto: CreateTicketDto,
+  ): Promise<Movidesk.TicketResponse> {
+    const { data } = await lastValueFrom<{ data: Movidesk.TicketResponse }>(
+      this.httpService
+        .post(
+          `${this.http}?token=${process.env.MOVIDESK_TOKEN}`,
+          createTicketDto,
+          {
+            headers: { Accept: 'application/json' },
+          },
+        )
+        .pipe(
+          catchError((error: AxiosError) => {
+            this.logger.error(error.response.data);
+            throw 'An error happened!';
+          }),
+        ),
     );
 
     return data;
