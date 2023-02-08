@@ -20,4 +20,10 @@ export class MovideskGrpcServerController {
 
     return { data: data };
   }
+
+  @GrpcMethod('MovideskService', 'UpdateTicket')
+  async updateTicket({ id }: ComunicationGetTicketDTO) {
+    const response = await this.movideskServices.updateTicket(id, []);
+    return response;
+  }
 }
