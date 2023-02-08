@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package movidesk;
+
+service MovideskService {
+  rpc GetTicket (GetTicketRequest) returns (GetTicketResponse);
+}
+
+message GetTicketRequest {
+  string id = 1;
+}
+
+message GetTicketResponse {
+  string data = 1;
+}

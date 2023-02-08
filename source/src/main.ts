@@ -1,6 +1,8 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { join } from 'path';
 
 /**
  * Bootstrap the application
@@ -17,6 +19,17 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.GRPC,
+    options: {
+      url: '0.0.0.0:50051',
+      package: 'movidesk',
+      protoPath: join(__dirname, 'movidesk/proto/movidesk.proto'),
+    },
+  });
+
+  await app.startAllMicroservices();
 
   await app.listen(3000);
 }

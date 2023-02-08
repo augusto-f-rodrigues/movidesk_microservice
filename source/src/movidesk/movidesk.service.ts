@@ -90,4 +90,9 @@ export class MovideskService {
 
     return data;
   }
+
+  async getAll(ticketFilterDto: any){
+    
+    return
+  }
 }

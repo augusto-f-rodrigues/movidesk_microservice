@@ -6,7 +6,7 @@ import { CreateTicketDto } from './dto/create-ticket.dto';
  * Controller to handle Movidesk requests
  * @class MovideskController
  */
-@Controller('movidesk')
+@Controller('movidesk/ticket')
 export class MovideskController {
   /**
    * Constructor
@@ -19,9 +19,14 @@ export class MovideskController {
    * @param id Ticket ID
    * @returns Ticket
    */
-  @Get('/ticket/:id')
+  @Get(':id')
   async getTicket(@Param('id') id: string) {
     return await this.movideskService.getTicket(id);
+  }
+
+  @Post('/getAll')
+  async getAllTickets(@Body() filterTicketDTO: any){
+    return await this.movideskService.getAll(filterTicketDTO);
   }
 
   /**
@@ -30,7 +35,7 @@ export class MovideskController {
    * @param updateMovideskDto Ticket data to update
    * @returns Updated ticket
    */
-  @Patch('/ticket/:id')
+  @Patch(':id')
   async updateTicket(
     @Param('id') id: string,
     @Body() updateMovideskDto: Movidesk.CustomFieldValue[],
