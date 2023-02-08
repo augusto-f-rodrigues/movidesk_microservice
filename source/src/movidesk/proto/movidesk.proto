@@ -4,6 +4,16 @@ package movidesk;
 
 service MovideskService {
   rpc GetTicket (GetTicketRequest) returns (GetTicketResponse);
+  rpc GetAllTickets (GetAllTicketsRequest) returns (GetAllTicketsResponse);
+}
+
+message GetAllTicketsRequest {
+  string search = 1;
+  string return = 2;
+}
+
+message GetAllTicketsResponse {
+  string data = 1;
 }
 
 message GetTicketRequest {

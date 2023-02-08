@@ -1,6 +1,7 @@
 import { Controller, Get, Body, Patch, Param, Post } from '@nestjs/common';
 import { MovideskService } from './movidesk.service';
 import { CreateTicketDto } from './dto/create-ticket.dto';
+import { TicketFilterDto } from './dto/ticket-filter.dto';
 
 /**
  * Controller to handle Movidesk requests
@@ -25,8 +26,8 @@ export class MovideskController {
   }
 
   @Post('/getAll')
-  async getAllTickets(@Body() filterTicketDTO: any){
-    return await this.movideskService.getAll(filterTicketDTO);
+  async getAllTickets(@Body() filterTicketDTO: TicketFilterDto){
+    return filterTicketDTO;
   }
 
   /**

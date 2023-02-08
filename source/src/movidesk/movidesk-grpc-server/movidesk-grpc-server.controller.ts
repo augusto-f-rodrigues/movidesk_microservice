@@ -4,6 +4,7 @@ import { Controller } from '@nestjs/common';
 import { Logger } from '@nestjs/common/services';
 import { GrpcMethod } from '@nestjs/microservices';
 import { ComunicationGetTicketDTO } from '../dto/comunication-get-ticket.dto';
+import { TicketFilterDto } from '../dto/ticket-filter.dto';
 import { MovideskService } from '../movidesk.service';
 
 @Controller()
@@ -19,5 +20,14 @@ export class MovideskGrpcServerController {
     this.logger.debug('Data', data);
 
     return { data: data };
+  }
+
+  @GrpcMethod('MovideskService', 'GetAllTickets')
+  async getAllTickets(data: TicketFilterDto) {
+    try {
+      return 'OK';
+    } catch (e) {
+      throw new Error(e);
+    }
   }
 }
