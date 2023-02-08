@@ -26,8 +26,14 @@ export class MovideskGrpcServerController {
   async getAllTickets(data: TicketFilterDto) {
     try {
       return 'OK';
-    } catch (e) {
+    } catch
+     (e) {
       throw new Error(e);
     }
+    
+  @GrpcMethod('MovideskService', 'UpdateTicket')
+  async updateTicket({ id }: ComunicationGetTicketDTO) {
+    const response = await this.movideskServices.updateTicket(id, []);
+    return response;
   }
 }

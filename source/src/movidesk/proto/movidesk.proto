@@ -4,6 +4,7 @@ package movidesk;
 
 service MovideskService {
   rpc GetTicket (GetTicketRequest) returns (GetTicketResponse);
+<<<<<<< HEAD
   rpc GetAllTickets (GetAllTicketsRequest) returns (GetAllTicketsResponse);
 }
 
@@ -14,6 +15,9 @@ message GetAllTicketsRequest {
 
 message GetAllTicketsResponse {
   string data = 1;
+=======
+  rpc UpdateTicket (UpdateTicketRequest) returns (UpdateTicketResponse);
+>>>>>>> e37b3a6dc90dce3fd2faae04e8879e22750bb958
 }
 
 message GetTicketRequest {
@@ -21,5 +25,13 @@ message GetTicketRequest {
 }
 
 message GetTicketResponse {
+  string data = 1;
+}
+
+message UpdateTicketRequest {
+  string id = 1;
+}
+
+message UpdateTicketResponse {
   string data = 1;
 }
