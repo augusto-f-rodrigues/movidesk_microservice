@@ -24,10 +24,11 @@ export class MovideskController {
   async getTicket(@Param('id') id: string) {
     return await this.movideskService.getTicket(id);
   }
+  
 
   @Post('/getAll')
-  async getAllTickets(@Body() filterTicketDTO: TicketFilterDto){
-    return filterTicketDTO;
+  async getAllTickets(@Body() filterTicketDTO){
+    return await this.movideskService.getAll(filterTicketDTO);
   }
 
   /**

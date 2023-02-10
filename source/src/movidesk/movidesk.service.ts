@@ -1,8 +1,11 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
+import { Inject } from '@nestjs/common/decorators/core/inject.decorator';
 import { AxiosError } from 'axios';
 import { catchError, lastValueFrom } from 'rxjs';
+import { IOData } from 'src/providers/interfaces/iodata';
 import { CreateTicketDto } from './dto/create-ticket.dto';
+import { TicketFilterDto } from './dto/ticket-filter.dto';
 /**
  * Movidesk Service
  * @class MovideskService
@@ -17,7 +20,10 @@ export class MovideskService {
    * Constructor
    * @param httpService Http Service to handle requests
    */
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    @Inject('OData') private readonly oDataProvider: IOData,
+  ) {}
 
   /**
    * Movidesk URL
@@ -91,8 +97,24 @@ export class MovideskService {
     return data;
   }
 
-  async getAll(ticketFilterDto: any){
-    
-    return
+  async getAll({ search }) {
+    let query: string;
+
+    query = await this.oDataProvider.formatNormalFieldValues(
+      search?.normalFieldValues,
+    );
+
+    const { data } = await lastValueFrom<{data: Movidesk.TicketResponse[]}>(
+      this.httpService
+        .get(`${this.http}?token=${process.env.MOVIDESK_TOKEN}${query}`)
+        .pipe(
+          catchError((error: AxiosError) => {
+            this.logger.error(error.response.data);
+            throw 'An error happened!';
+          }),
+        ),
+    );
+
+    return data;
   }
 }

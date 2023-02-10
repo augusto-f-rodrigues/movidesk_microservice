@@ -1,3 +1,4 @@
+import { OpenDataProtocolService } from './providers/openDataProtocol.service';
 import { Module, ClassSerializerInterceptor } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
@@ -16,6 +17,7 @@ import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
   ],
   controllers: [AppController],
   providers: [
+    OpenDataProtocolService,
     AppService,
     {
       provide: APP_FILTER,

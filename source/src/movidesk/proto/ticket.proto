@@ -1,0 +1,249 @@
+syntax = "proto3";
+
+package ticket;
+
+ message Response {
+  int32 id = 1; 
+  string protocol = 2;
+  int32 type = 3;
+  string subject = 4;
+  string category = 5;
+  string urgency = 6;
+  string status = 7;
+  string baseStatus = 8;
+  string justification = 9;
+  int32 origin = 10;
+  string createdDate = 11;
+  string originEmailAccount = 12;
+  Owner owner = 13;
+  string ownerTeam = 14;
+  CreatedBy createdBy = 15;
+  repeated string serviceFull = 16;
+  int32 serviceFirstLevelId = 17;
+  string serviceFirstLevel = 18;
+  string serviceSecondLevel = 19;
+  string serviceThirdLevel = 20;
+  string contactForm = 21;
+  repeated string tags = 22;
+  string cc = 23;
+  string resolvedIn = 24;
+  string reopenedIn = 25;
+  string closedIn = 26;
+  string lastActionDate = 27;
+  int32 actionCount = 28;
+  string lastUpdate = 29;
+  int32 lifeTimeWorkingTime = 30;
+  int32 stoppedTime = 31;
+  int32 stoppedTimeWorkingTime = 32;
+  bool resolvedInFirstCall = 33;
+  string chatWidget = 34;
+  string chatGroup = 35;
+  int32 chatTalkTime = 36;
+  int32 chatWaitingTime = 37;
+  int32 sequence = 38;
+  string slaAgreement = 39;
+  string slaAgreementRule = 40;
+  int32 slaSolutionTime = 41;
+  int32 slaResponseTime = 42;
+  bool slaSolutionChangedByUser = 43;
+  SlaSolutionChangedBy slaSolutionChangedBy = 44;
+  string slaSolutionDate = 45;
+  bool slaSolutionDateIsPaused = 46;
+  string slaResponseDate = 47;
+  string slaRealResponseDate = 48;
+  repeated Client clients = 49;
+  repeated Action actions = 50;
+  repeated CustomFieldValue customFieldValues = 51;
+}
+
+message Owner {
+  string id = 1;
+  int32 personType = 2;
+  int32 profileType = 3;
+  string businessName = 4;
+  string email = 5;
+  string phone = 6;
+}
+
+message CreatedBy {
+  string id = 1;
+  int32 personType = 2;
+  int32 profileType = 3;
+  string businessName = 4;
+  string email = 5;
+  string phone = 6;
+}
+
+message SlaSolutionChangedBy {
+  string id = 1;
+  int32 personType = 2;
+  int32 profileType = 3;
+  string businessName = 4;
+  string email = 5;
+  string phone = 6;
+}
+
+message Client {
+  string id = 1;
+  int32 personType = 2;
+  int32 profileType = 3;
+  string businessName = 4;
+  string email = 5;
+  string phone = 6;
+  bool isDeleted = 7;
+  Organization organization = 8;
+}
+
+message Organization {
+  string id = 1;
+  int32 personType = 2;
+  int32 profileType = 3;
+  string businessName = 4;
+  string email = 5;
+  string phone = 6;
+}
+
+message Action {
+  int32 id = 1;
+  int32 type = 2;
+  int32 origin = 3;
+  string description = 4;
+  string status = 5;
+  string justification = 6;
+  string createdDate = 7;
+  CreatedBy createdBy = 8;
+  bool isDeleted = 9;
+  repeated TimeAppointment timeAppointments = 10;
+  repeated Expense expenses = 11;
+  repeated Attachment attachments = 12;
+  repeated ParentTicket parentTickets = 13;
+  repeated ChildrenTicket childrenTickets = 14;
+  repeated SatisfactionSurveyResponse satisfactionSurveyResponses = 15;
+  repeated CustomFieldValue customFieldValues = 16;
+}
+
+message CreatedBy2 {
+  string id = 1;
+  int32 personType = 2;
+  int32 profileType = 3;
+  string businessName = 4;
+  string email = 5;
+  string phone = 6;
+}
+
+message TimeAppointment {
+  int32 id = 1;
+  string activity = 2;
+  string date = 3;
+  string periodStart = 4;
+  string periodEnd = 5;
+  string workTime = 6;
+  int32 accountedTime = 7;
+  string workTypeName = 8;
+  CreatedBy createdBy = 9;
+  CreatedByTeam createdByTeam = 10;
+}
+
+message CreatedBy3 {
+  string id = 1;
+  int32 personType = 2;
+  int32 profileType = 3;
+  string businessName = 4;
+  string email = 5;
+  string phone = 6;
+}
+
+message CreatedByTeam {
+  int32 id = 1;
+  string name = 2;
+}
+
+message Expense {
+  int32 id = 1;
+  string type = 2;
+  string serviceReport = 3;
+  CreatedBy createdBy = 4;
+  string createdByTeam = 5;
+  string date = 6;
+  string quantity = 7;
+  int32 value = 8;
+}
+
+message CreatedBy4 {
+  string id = 1;
+  int32 personType = 2;
+  int32 profileType = 3;
+  string businessName = 4;
+  string email = 5;
+  string phone = 6;
+  string address = 7;
+  string complement = 8;
+  string cep = 9;
+  string city = 10;
+  string bairro = 11;
+  string number = 12;
+  string reference = 13;
+}
+
+message Attachment {
+  string fileName = 1;
+  string path = 2;
+  CreatedBy createdBy = 3;
+  string createdDate = 4;
+}
+
+message CreatedBy5 {
+  string id = 1;
+  int32 personType = 2;
+  int32 profileType = 3;
+  string businessName = 4;
+  string email = 5;
+  string phone = 6;
+}
+
+message ParentTicket {
+  int32 id = 1;
+  string subject = 2;
+  bool isDeleted = 3;
+}
+
+message ChildrenTicket {
+  int32 id = 1;
+  string subject = 2;
+  bool isDeleted = 3;
+}
+
+message SatisfactionSurveyResponse {
+  int32 id = 1;
+  ResponsedBy responsedBy = 2;
+  string responseDate = 3;
+  int32 satisfactionSurveyModel = 4;
+  string satisfactionSurveyNetPromoterScoreResponse = 5;
+  string satisfactionSurveyPositiveNegativeResponse = 6;
+  int32 satisfactionSurveySmileyFacesResponse = 7;
+  string comments = 8;
+}
+
+message ResponsedBy {
+  string id = 1;
+  int32 personType = 2;
+  int32 profileType = 3;
+  string businessName = 4;
+  string email = 5;
+  string phone = 6;
+}
+
+message CustomFieldValue {
+  int32 customFieldId = 1;
+  int32 customFieldRuleId = 2;
+  int32 line = 3;
+  string value = 4;
+  repeated Item items = 5;
+}
+
+message Item {
+  string personId = 1;
+  string clientId = 2;
+  string team = 3;
+  string customFieldItem = 4;
+}
